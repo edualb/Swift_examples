@@ -22,23 +22,44 @@ class ShimmeringViewController: UIViewController {
         return collection
     }()
     
+    let viewExample: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+        view.backgroundColor = .green
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         newCollectionView.delegate = self
         newCollectionView.dataSource = self
-        newCollectionView.prefetchDataSource = self
         newCollectionView.register(ShimmeringCell.self, forCellWithReuseIdentifier: cellId)
-        view.addSubview(newCollectionView)
+        self.view.addSubview(self.newCollectionView)
         setupCollection()
+        
+        self.viewExample.alpha = 0.6
+        UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse, .allowUserInteraction], animations: {
+            self.viewExample.alpha = 0
+        }, completion: nil)
     }
     
 
     private func setupCollection() {
-        newCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        newCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        newCollectionView.heightAnchor.constraint(equalToConstant: 400).isActive = true
-        newCollectionView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        self.newCollectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.newCollectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self.newCollectionView.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        self.newCollectionView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        
+        self.newCollectionView.addSubview(self.viewExample)
+        setupViewExample()
+    }
+    
+    private func setupViewExample() {
+        self.viewExample.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        self.viewExample.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self.viewExample.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        self.viewExample.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
     }
 
 }
@@ -63,24 +84,6 @@ extension ShimmeringViewController: UICollectionViewDataSource, UICollectionView
         return UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let cell = cell as? ShimmeringCell else { return }
-        UIView.animate(withDuration: 1.0, delay: 0, options: [.autoreverse, .repeat], animations: {
-            cell.alpha = 0.4
-        }, completion: nil)
-    }
-    
-}
-
-extension ShimmeringViewController: UICollectionViewDataSourcePrefetching {
-    
-    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        print("Prefetch: \(indexPaths)")
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        print("Cancel Prefetch: \(indexPaths)")
-    }
 }
 
 class CustomCell: UICollectionViewCell {
@@ -129,4 +132,5 @@ class ShimmeringCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
