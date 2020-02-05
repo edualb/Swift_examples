@@ -51,7 +51,7 @@ class ShimmeringViewController: UIViewController {
         self.newCollectionView.heightAnchor.constraint(equalToConstant: 400).isActive = true
         self.newCollectionView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         
-        self.newCollectionView.addSubview(self.viewExample)
+        self.view.addSubview(self.viewExample)
         setupViewExample()
     }
     
