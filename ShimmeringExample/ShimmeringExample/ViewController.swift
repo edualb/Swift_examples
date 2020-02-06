@@ -24,20 +24,6 @@ class ViewController: UIViewController {
         return collection
     }()
     
-    let viewExample: UIView = {
-        let view = UIView()
-        view.backgroundColor = .darkGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let viewExample2: UIView = {
-        let view = UIView()
-        view.backgroundColor = .darkGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .darkGray
@@ -48,25 +34,13 @@ class ViewController: UIViewController {
         self.collectionView.register(nibCell, forCellWithReuseIdentifier: cellId)
         self.view.addSubview(self.collectionView)
         self.setupCollectionView()
-        self.setupPlayerView()
+
+        self.view.startShimmering(backgroundColor: .darkGray, viewsBased: [self.playerView, self.collectionView])
         
-        self.viewExample.alpha = 1.0
-        UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse], animations: {
-            self.viewExample.alpha = 0.1
-        }, completion: nil)
-        
-        self.viewExample2.alpha = 1.0
-        UIView.animate(withDuration: 1.0, delay: 0, options: [.repeat, .autoreverse], animations: {
-            self.viewExample2.alpha = 0.1
-        }, completion: nil)
-    }
-    
-    private func setupPlayerView() {
-        self.view.addSubview(self.viewExample2)
-        self.viewExample2.topAnchor.constraint(equalTo: self.playerView.topAnchor).isActive = true
-        self.viewExample2.bottomAnchor.constraint(equalTo: self.playerView.bottomAnchor).isActive = true
-        self.viewExample2.leadingAnchor.constraint(equalTo: self.playerView.leadingAnchor).isActive = true
-        self.viewExample2.trailingAnchor.constraint(equalTo: self.playerView.trailingAnchor).isActive = true
+        Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { (_) in
+            self.view.stopShimmering(viewBased: self.playerView)
+//            self.view.stopShimmering(viewBased: self.collectionView)
+        }
     }
     
     private func setupCollectionView() {
@@ -75,12 +49,6 @@ class ViewController: UIViewController {
         self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         self.collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        
-        self.view.addSubview(self.viewExample)
-        self.viewExample.topAnchor.constraint(equalTo: self.collectionView.topAnchor).isActive = true
-        self.viewExample.bottomAnchor.constraint(equalTo: self.collectionView.bottomAnchor).isActive = true
-        self.viewExample.leadingAnchor.constraint(equalTo: self.collectionView.leadingAnchor).isActive = true
-        self.viewExample.trailingAnchor.constraint(equalTo: self.collectionView.trailingAnchor).isActive = true
     }
 
 }
