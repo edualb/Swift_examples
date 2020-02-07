@@ -36,13 +36,15 @@ class ViewController: UIViewController {
         self.setupCollectionView()
         
         Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { (_) in
-//            self.view.startShimmering(backgroundColor: .darkGray, at: self.collectionView)
-//            self.view.startShimmering(backgroundColor: .darkGray, at: self.playerView)
-            self.view.startShimmering(backgroundColor: .darkGray, at: [self.playerView, self.collectionView])
+//            self.view.startShimmering(at: self.collectionView, backgroundColor: .darkGray, )
+//            self.view.startShimmering(at: self.playerView, backgroundColor: .darkGray, )
+//            self.view.startShimmering(at: [self.playerView, self.collectionView], backgroundColor: .darkGray)
+            self.view.startShimmeringAll(backgroundColor: .darkGray)
             Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { (_) in
 //                self.view.stopShimmering(at: self.playerView)
 //                self.view.stopShimmering(at: self.collectionView)
-                self.view.stopShimmering(at: [self.playerView, self.collectionView])
+//                self.view.stopShimmering(at: [self.playerView, self.collectionView])
+                self.view.stopShimmeringAll()
             }
         }
 

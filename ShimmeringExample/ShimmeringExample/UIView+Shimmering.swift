@@ -12,25 +12,38 @@ import UIKit
 
 extension UIView {
     
-    func startShimmering(backgroundColor: UIColor, at view: UIView, allowUserInteraction: Bool? = false) {
+    // MARK: StartShimmering
+    
+    func startShimmering(at view: UIView, backgroundColor: UIColor, allowUserInteraction: Bool? = false) {
         if let allowInteraction = allowUserInteraction {
-            let shimmeringView = getShimmeringView(backgroundColor)
+            let shimmeringView = self.getShimmeringView(backgroundColor)
             self.addSubview(shimmeringView)
             shimmeringView.buildConstraints(view: view)
             shimmeringView.startAnimation(allowUserInteraction: allowInteraction)
         }
     }
     
-    func startShimmering(backgroundColor: UIColor, at views: [UIView], allowUserInteraction: Bool? = false) {
+    func startShimmering(at views: [UIView], backgroundColor: UIColor, allowUserInteraction: Bool? = false) {
         if let allowInteraction = allowUserInteraction {
             for view in views {
-                let shimmeringView = getShimmeringView(backgroundColor)
+                let shimmeringView = self.getShimmeringView(backgroundColor)
                 self.addSubview(shimmeringView)
                 shimmeringView.buildConstraints(view: view)
                 shimmeringView.startAnimation(allowUserInteraction: allowInteraction)
             }
         }
     }
+    
+    func startShimmeringAll(backgroundColor: UIColor, allowUserInteraction: Bool? = false) {
+        if let allowInteraction = allowUserInteraction {
+            let shimmeringView = self.getShimmeringView(backgroundColor)
+            self.addSubview(shimmeringView)
+            shimmeringView.buildConstraints(view: self)
+            shimmeringView.startAnimation(allowUserInteraction: allowInteraction)
+        }
+    }
+    
+    // MARK: StopShimmering
     
     func stopShimmering(at view: UIView) {
         for subview in self.subviews {
@@ -49,6 +62,15 @@ extension UIView {
             }
         }
     }
+    
+    func stopShimmeringAll() {
+        for subview in self.subviews {
+            if subview is AnimationProtocol && subview.frame.intersects(self.frame) {
+                subview.removeFromSuperview()
+            }
+        }
+    }
+    
 }
 
 private extension UIView {
