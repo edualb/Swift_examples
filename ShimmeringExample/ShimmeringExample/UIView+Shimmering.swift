@@ -12,18 +12,18 @@ fileprivate let tagNumber: Int = 6501
 
 extension UIView {
     
-    func startShimmering(backgroundColor: UIColor, viewBased: UIView, allowUserInteraction: Bool? = false) {
+    func startShimmering(backgroundColor: UIColor, at view: UIView, allowUserInteraction: Bool? = false) {
         if let allowInteraction = allowUserInteraction {
             let shimmeringView = getShimmeringView(backgroundColor)
             self.addSubview(shimmeringView)
-            self.buildShimmeringContraints(viewMain: shimmeringView, viewBased: viewBased)
+            self.buildShimmeringContraints(viewMain: shimmeringView, viewBased: view)
             self.loopShimmering(allowUserInteraction: allowInteraction, view: shimmeringView)
         }
     }
     
-    func startShimmering(backgroundColor: UIColor, viewsBased: [UIView], allowUserInteraction: Bool? = false) {
+    func startShimmering(backgroundColor: UIColor, at views: [UIView], allowUserInteraction: Bool? = false) {
         if let allowInteraction = allowUserInteraction {
-            for view in viewsBased {
+            for view in views {
                 let shimmeringView = getShimmeringView(backgroundColor)
                 self.addSubview(shimmeringView)
                 self.buildShimmeringContraints(viewMain: shimmeringView, viewBased: view)
@@ -32,10 +32,20 @@ extension UIView {
         }
     }
     
-    func stopShimmering(viewBased: UIView) {
-        for view in self.subviews {
-            if view.tag == tagNumber && view.frame.intersects(viewBased.frame) {
-                view.removeFromSuperview()
+    func stopShimmering(at view: UIView) {
+        for subview in self.subviews {
+            if subview.tag == tagNumber && subview.frame.intersects(view.frame) {
+                subview.removeFromSuperview()
+            }
+        }
+    }
+    
+    func stopShimmering(at views: [UIView]) {
+        for view in views {
+            for subview in self.subviews {
+                if subview.tag == tagNumber && subview.frame.intersects(view.frame) {
+                    subview.removeFromSuperview()
+                }
             }
         }
     }

@@ -34,13 +34,18 @@ class ViewController: UIViewController {
         self.collectionView.register(nibCell, forCellWithReuseIdentifier: cellId)
         self.view.addSubview(self.collectionView)
         self.setupCollectionView()
-
-        self.view.startShimmering(backgroundColor: .darkGray, viewsBased: [self.playerView, self.collectionView])
         
-        Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { (_) in
-            self.view.stopShimmering(viewBased: self.playerView)
-//            self.view.stopShimmering(viewBased: self.collectionView)
+        Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { (_) in
+//            self.view.startShimmering(backgroundColor: .darkGray, at: self.collectionView)
+//            self.view.startShimmering(backgroundColor: .darkGray, at: self.playerView)
+            self.view.startShimmering(backgroundColor: .darkGray, at: [self.playerView, self.collectionView])
+            Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { (_) in
+//                self.view.stopShimmering(at: self.playerView)
+//                self.view.stopShimmering(at: self.collectionView)
+                self.view.stopShimmering(at: [self.playerView, self.collectionView])
+            }
         }
+
     }
     
     private func setupCollectionView() {
